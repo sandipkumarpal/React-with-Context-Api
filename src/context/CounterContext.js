@@ -1,9 +1,11 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 const CounterContext = createContext();
 
 const ContextProvider = CounterContext.Provider;
 // const ContextConsumer = CounterContext.Consumer;
+
+const useCounterContext = () => useContext(CounterContext);
 
 const CounterProviderContext = (props) => {
   const { children } = props;
@@ -16,4 +18,4 @@ const CounterProviderContext = (props) => {
   return <ContextProvider value={value}>{children}</ContextProvider>;
 };
 
-export { CounterContext, CounterProviderContext };
+export { CounterContext, CounterProviderContext, useCounterContext };
