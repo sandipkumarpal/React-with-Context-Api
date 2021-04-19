@@ -16,11 +16,34 @@ const CounterProviderContext = (props) => {
   return <ContextProvider value={value}>{children}</ContextProvider>;
 };
 
-const useCounterContext = () => useContext(CounterContext);
+const withCounter = (Component) => {
+  const WithCounter = (props) => {
+    return (
+      <ContextConsumer>
+        {({ count, increaseCounter, decreaseCounter }) => (
+          <Component
+            {...{ ...props, count, increaseCounter, decreaseCounter }}
+          />
+        )}
+      </ContextConsumer>
+    );
+  };
+
+  WithCounter.displayName = "WithCounter";
+
+  return WithCounter;
+};
+
+const useCounterContext = () => {
+  const { count, increaseCounter, decreaseCounter } = useContext(
+    CounterContext
+  );
+  return { count, increaseCounter, decreaseCounter };
+};
 
 export {
   CounterContext,
   CounterProviderContext,
   useCounterContext,
-  ContextConsumer
+  withCounter
 };
